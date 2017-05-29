@@ -286,3 +286,6 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+*.blend
+banco_bar.mtl
+*.mtl
