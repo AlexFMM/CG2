@@ -3,8 +3,8 @@
 /**    COMPUTACAO GRAFICA                              |        .-.    |     **/
 /**    MIEEC - FCTUC                                   |        !o|    |     **/
 /**                                                    |>-,   ,-' | ,-<|     **/
-/**    AUTORES: - Alexandre Martins                    |  `---'   `-'  |     **/
-/**             - Catarina Penacho                     `---------------'     **/
+/**    AUTORES: - André Fonseca                        |  `---'   `-'  |     **/
+/**             - Alexandre Martins                    `---------------'     **/
 /******************************************************************************/
 /* DESCRICAO:                                                                 */
 /*                                                                            */
@@ -65,7 +65,7 @@ float inc1, inc2;
 bool sobeSeeSaw[2] = { false, false };
 float rotSpin1, rotSpin2;
 bool sair = true;
-bool outOfPark = false;
+//bool outOfPark = false;
 
 bool activo[8];
 
@@ -85,13 +85,13 @@ void keyboard(unsigned char tecla, int x, int y)
 {
 	if (pos_y >= 24 && pos_y <= 26 && pos_x <= -48 && sair) {
 		//porta a sair
-		outOfPark = true;
+		//outOfPark = true;
 		sair = false;
 	}
 	else if (pos_y >= 24 && pos_y <= 26 && pos_x >= -49
 		&& pos_x <= -47 && !sair) {
 		//porta a entrar
-		outOfPark = false;
+		//outOfPark = false;
 		sair = true;
 	}
 
@@ -178,7 +178,7 @@ void keyboard(unsigned char tecla, int x, int y)
 	}
 
 	//hitboxes for the fence
-	if (!outOfPark) {
+	/*if (!outOfPark) {
 		if (pos_x <= -49) {
 			pos_x = -48.5;
 		}
@@ -206,7 +206,7 @@ void keyboard(unsigned char tecla, int x, int y)
 		else if (pos_y <= 50 && pos_y >= 47 && pos_x >= -47 && pos_x <= 47) {
 			pos_y = 50.5;
 		}
-	}
+	}*/
 
 	//end of space
 	if (pos_x >= 352) {
@@ -306,7 +306,7 @@ void iluminacao(void)
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, LuzDifBranco);
 }
 //
-// Função que desenha a Cidade através de paralelipípedos
+// Adaptação da função que desenha a Cidade através de paralelipípedos
 //
 void drawPark()
 {
@@ -314,27 +314,28 @@ void drawPark()
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glPushMatrix();
 	glBindTexture(GL_TEXTURE_2D, texture_id[1]);
+	//em alteração -> testes
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzAmbPreto);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, LuzEspBranco);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzAmbPreto);
-	glColor3f(0.19, 0.55, 0.19);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, LuzAmbPreto); 
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzEspBranco);
+	glColor3f(0.19, 0.40, 0.60);
 	glBegin(GL_QUADS);
-	glTexCoord2f(0.0, 0.0);		glVertex3f(-500, 0, -500);
-	glTexCoord2f(200.0, 0.0);		glVertex3f(500, 0, -500);
+	glTexCoord2f(0.0, 0.0);			glVertex3f(-500, 0, 50);
+	glTexCoord2f(200.0, 0.0);		glVertex3f(500, 0, 50);
 	glTexCoord2f(200.0, 200.0);		glVertex3f(500, 0, 500);
 	glTexCoord2f(0.0, 200.0);		glVertex3f(-500, 0, 500);
 	glEnd();
 
 	glBindTexture(GL_TEXTURE_2D, texture_id[0]);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzAmbPreto);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzEspBranco);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, LuzEspBranco);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzAmbPreto);
-	glColor3f(0.1, 0.15, 0.15);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzEspBranco); //alterado
+	glColor3f(0.9, 0.9, 0.9);
 	glBegin(GL_QUADS);
-	glTexCoord2f(0.0, 0.0);		glVertex3f(-50, 0.01, -50);
-	glTexCoord2f(20.0, 0.0);		glVertex3f(50, 0.01, -50);
-	glTexCoord2f(20.0, 20.0);		glVertex3f(50, 0.01, 50);
-	glTexCoord2f(0.0, 20.0);		glVertex3f(-50, 0.01, 50);
+	glTexCoord2f(0.0, 0.0);			glVertex3f(-500, 0.01, -500);
+	glTexCoord2f(20.0, 0.0);		glVertex3f(500, 0.01, -500);
+	glTexCoord2f(20.0, 20.0);		glVertex3f(500, 0.01, 50);
+	glTexCoord2f(0.0, 20.0);		glVertex3f(-500, 0.01, 50);
 	glEnd();
 	glPopMatrix();
 
@@ -677,7 +678,7 @@ void InitGLUT()
 	// definição da posição inicial da janela
 	glutInitWindowPosition(200, 100);
 	// criação da janela de visualização
-	glutCreateWindow("Parque infantil");
+	glutCreateWindow("Paradise Beach");
 	// chamada da função de redimensionamento
 	glutReshapeFunc(redimensiona_janela);
 	// redesenho a cena
@@ -744,13 +745,13 @@ void initTexture() {
 
 	// carrega a uma imagem TGA 
 	image_t temp_image;
-	tgaLoad("floor.tga", &temp_image, TGA_FREE);
+	tgaLoad("areia1.tga", &temp_image, TGA_FREE);
 
 	texture_id[CUBE_TEXTURE + 1] = 1002;
 	glBindTexture(GL_TEXTURE_2D, texture_id[CUBE_TEXTURE + 1]);
-	tgaLoad("grass.tga", &temp_image, TGA_FREE);
+	tgaLoad("oceano.tga", &temp_image, TGA_FREE);
 
-	texture_id[CUBE_TEXTURE + 2] = 1003;
+	/*texture_id[CUBE_TEXTURE + 2] = 1003;
 	glBindTexture(GL_TEXTURE_2D, texture_id[CUBE_TEXTURE + 2]);
 	tgaLoad("metal.tga", &temp_image, TGA_FREE);
 
@@ -772,7 +773,7 @@ void initTexture() {
 
 	texture_id[CUBE_TEXTURE + 7] = 1008;
 	glBindTexture(GL_TEXTURE_2D, texture_id[CUBE_TEXTURE + 7]);
-	tgaLoad("balance.tga", &temp_image, TGA_FREE);
+	tgaLoad("balance.tga", &temp_image, TGA_FREE);*/
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -973,7 +974,7 @@ int main(int argc, char** argv)
 	cout << "A carregar modelos\n" << endl;
 
 	//Load the 3D models from the .obj files
-	char *spinner = "spinner.obj";
+	/*char *spinner = "spinner.obj";
 	char *slide = "slide.obj";
 	char *fence = "cerca.obj";
 	char *swing = "swing.obj";
@@ -1128,7 +1129,7 @@ int main(int argc, char** argv)
 	glutTimerFunc(10, rotSwing12, 0);
 	glutTimerFunc(8, rotSwing21, 0);
 	glutTimerFunc(16, rotSwing22, 0);
-	// Esperando por eventos
+	// Esperando por eventos*/
 	glutMainLoop();
 
 

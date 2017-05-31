@@ -3,8 +3,8 @@
 /**    COMPUTACAO GRAFICA                              |        .-.    |     **/
 /**    MIEEC - FCTUC                                   |        !o|    |     **/
 /**                                                    |>-,   ,-' | ,-<|     **/
-/**    AUTORES: - Alexandre Martins                    |  `---'   `-'  |     **/
-/**             - Catarina Penacho                     `---------------'     **/
+/**    AUTORES: - André Fonseca                        |  `---'   `-'  |     **/
+/**             - Alexandre Martins                    `---------------'     **/
 /******************************************************************************/
 /* DESCRICAO:                                                                 */
 /*                                                                            */

@@ -289,3 +289,6 @@ __pycache__/
 *.blend
 banco_bar.mtl
 *.mtl
+*.jpg
+areia.tga
+*.tga
