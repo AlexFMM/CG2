@@ -48,8 +48,8 @@ double razao_aspeto = 1; // razão de aspecto da janela de visualização
 double limite_z_anterior = 1; // plano de recorte anterior
 double limite_z_posterior = 20000; // plano de recorte posterior
 double pos_x = 20; // posição da câmara (x)
-double pos_y = 20; // posição da câmara (y)
-double height = 6; // posição da câmara (z)
+double pos_y = -140; // posição da câmara (y)
+double height = 5; // posição da câmara (z)
 double look_x = 0; // direção de visualização da câmara (x)
 double look_y = 0; // direção de visualização da câmara (y)
 double look_z = 4; // direção de visualização da câmara (z)
@@ -137,7 +137,7 @@ void keyboard(unsigned char tecla, int x, int y)
 		pos_y -= ny*k / 6;
 		look_y -= ny*k / 6;
 		break;
-	case '1':
+	/*case '1':
 		activo[0] = !activo[0];
 		break;
 	case '2':
@@ -174,7 +174,7 @@ void keyboard(unsigned char tecla, int x, int y)
 		}
 		break;
 	default: // por defeito, não há nenhuma ação
-		break;
+		break;*/
 	}
 
 	//hitboxes for the fence
@@ -209,17 +209,17 @@ void keyboard(unsigned char tecla, int x, int y)
 	}*/
 
 	//end of space
-	if (pos_x >= 352) {
-		pos_x = 351.5;
+	if (pos_x >= 301) {
+		pos_x = 300;
 	}
-	else if (pos_x <= -352) {
-		pos_x = -351.5;
+	else if (pos_x <= -301) {
+		pos_x = -300;
 	}
-	if (pos_y >= 352) {
-		pos_y = 351.5;
+	if (pos_y >= -10) {
+		pos_y = -11;
 	}
-	else if (pos_y <= -352) {
-		pos_y = -351.5;
+	else if (pos_y <= -281) {
+		pos_y = -280;
 	}
 
 }
@@ -241,9 +241,7 @@ void mouse(int botao, int estado, int x, int y) {
 			rato_dx = x; rato_dy = y;
 		}
 	}
-	else if (botao == GLUT_RIGHT_BUTTON && estado == GLUT_DOWN)
-	{
-	}
+	else if (botao == GLUT_RIGHT_BUTTON && estado == GLUT_DOWN) {}
 }
 //
 // Função para controlo das ações do movimento do rato
@@ -313,288 +311,154 @@ void drawPark()
 	glEnable(GL_TEXTURE_2D);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glPushMatrix();
-	glBindTexture(GL_TEXTURE_2D, texture_id[1]);
 	//em alteração -> testes
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzAmbPreto);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, LuzAmbPreto); 
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzEspBranco);
-	glColor3f(0.19, 0.40, 0.60);
-	glBegin(GL_QUADS);
-	glTexCoord2f(0.0, 0.0);			glVertex3f(-500, 0, 50);
-	glTexCoord2f(200.0, 0.0);		glVertex3f(500, 0, 50);
-	glTexCoord2f(200.0, 200.0);		glVertex3f(500, 0, 500);
-	glTexCoord2f(0.0, 200.0);		glVertex3f(-500, 0, 500);
-	glEnd();
-
 	glBindTexture(GL_TEXTURE_2D, texture_id[0]);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzEspBranco);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, LuzEspBranco);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzEspBranco); //alterado
-	glColor3f(0.9, 0.9, 0.9);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzEspBranco);
+	glColor3f(1, 1, 1);
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0, 0.0);			glVertex3f(-500, 0.01, -500);
 	glTexCoord2f(20.0, 0.0);		glVertex3f(500, 0.01, -500);
 	glTexCoord2f(20.0, 20.0);		glVertex3f(500, 0.01, 50);
 	glTexCoord2f(0.0, 20.0);		glVertex3f(-500, 0.01, 50);
 	glEnd();
+
+	glBindTexture(GL_TEXTURE_2D, texture_id[1]);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzAmbPreto);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, LuzAmbPreto); 
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzEspBranco);
+	glColor3f(0.7,0.7,1);
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0, 0.0);			glVertex3f(-500, 0, 50);
+	glTexCoord2f(200.0, 0.0);		glVertex3f(500, 0, 50);
+	glTexCoord2f(200.0, 200.0);		glVertex3f(500, 0, 500);
+	glTexCoord2f(0.0, 200.0);		glVertex3f(-500, 0, 500);
+	glEnd();
 	glPopMatrix();
 
-	//Draw spinner 1
+	//Bandeira com bóia
 	glPushMatrix();
-	float colorspinner[] = { 0.28, 0.83, 0.82 };
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzAmbPreto);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, colorspinner);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, LuzEspBranco);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzAmbPreto);
 	glBindTexture(GL_TEXTURE_2D, texture_id[2]);
-	glTranslatef(30, 0.5, 30);
+	//glBindTexture(GL_TEXTURE_2D, texture_id[3]); -> problema: não consigo pôr duas texturas no mesmo objeto
+	glTranslatef(0,0,-120);
 	glScalef(2, 2, 2);
-	glRotatef(rotSpin1, 0, 1, 0);
-	glColor3f(0.28, 0.83, 0.82);
+	glRotatef(-90.0, 0.0, 1.0, 0.0);
+	glColor3f(1,1,1);
 	drawModel(model1);
+	glEnd();
 	glPopMatrix();
 
-
-	//Draw spinner 2
+	//Cadeira Nadador Salvador
 	glPushMatrix();
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzAmbPreto);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, colorspinner);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, LuzEspBranco);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzAmbPreto);
-	glBindTexture(GL_TEXTURE_2D, texture_id[2]);
-	glTranslatef(-15, 0.5, -30);
-	glScalef(2, 2, 2);
-	glRotatef(rotSpin2, 0, 1, 0);
-	glColor3f(0.28, 0.83, 0.82);
-	drawModel(model1);
-	glPopMatrix();
-
-	//Draw swing 1
-	glPushMatrix();//put it in place
-	glTranslatef(35, 0, -35);
-	glRotatef(90, 0, 1, 0);
-
-	glPushMatrix();
-	float color2[] = { 1, 0, 0 };
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzAmbPreto);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, color2);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzAmbPreto);
-	glBindTexture(GL_TEXTURE_2D, texture_id[2]);
-	glColor3f(.9, .9, .9);
-	glScalef(2, 2, 2);
-	drawModel(model4);
-	glPopMatrix();
-
-	//Draw Seats
-	glPushMatrix();
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzAmbPreto);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, color2);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzAmbPreto);
-	glBindTexture(GL_TEXTURE_2D, texture_id[5]);
-	glScalef(2, 2, 2);
-	glTranslatef(0.5, 3.1, 0.25);
-	glRotatef(incSwing11, 1, 0, 0);
-	glColor3f(1, 1, 1);
-	drawModel(model5);
-	glPopMatrix();
-
-	glPushMatrix();
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzAmbPreto);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, color2);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzAmbPreto);
-	glScalef(2, 2, 2);
-	glTranslatef(-1.8, 3.1, 0.25);
-	glRotatef(incSwing12, 1, 0, 0);
-	glColor3f(1, 1, 1);
-	drawModel(model5);
-	glPopMatrix();
-	glPopMatrix();
-
-	//Draw swing 2
-	glPushMatrix();//put it in place
-	glTranslatef(35, 0, -20);
-	glRotatef(90, 0, 1, 0);
-	glPushMatrix();
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzAmbPreto);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, color2);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzAmbPreto);
-	glBindTexture(GL_TEXTURE_2D, texture_id[2]);
-	glColor3f(.9, .9, .9);
-	glScalef(2, 2, 2);
-	drawModel(model4);
-	glPopMatrix();
-
-	//Draw Seat
-	glPushMatrix();
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzAmbPreto);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, color2);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzAmbPreto);
-	glBindTexture(GL_TEXTURE_2D, texture_id[5]);
-	glScalef(2, 2, 2);
-	glTranslatef(0.5, 3.1, 0.25);
-	glRotatef(incSwing21, 1, 0, 0);
-	glColor3f(1, 1, 1);
-	drawModel(model5);
-	glPopMatrix();
-
-	glPushMatrix();
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzAmbPreto);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, color2);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzAmbPreto);
-	glScalef(2, 2, 2);
-	glTranslatef(-1.8, 3.1, 0.25);
-	glRotatef(incSwing22, 1, 0, 0);
-	glColor3f(1, 1, 1);
-	drawModel(model5);
-	glPopMatrix();
-
-	glPopMatrix();
-
-	//Draw Slide
-	glPushMatrix();
-	glColor3f(1, 1, 1);
 	glBindTexture(GL_TEXTURE_2D, texture_id[4]);
-	glTranslatef(15, 0.5, 0);
-	glRotatef(-120, 0, 1, 0);
+	glTranslatef(5, 0, -120);
 	glScalef(2, 2, 2);
+	glRotatef(-90.0, 0.0, 1.0, 0.0);
+	glColor3f(1,1,1);
 	drawModel(model2);
+	glEnd();
 	glPopMatrix();
 
-	//Draw Table
-	glPushMatrix();
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzAmbPreto);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, color2);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzAmbPreto);
-	glColor3f(1, 1, 1);
-	glBindTexture(GL_TEXTURE_2D, texture_id[3]);
-	glTranslatef(-30, 0.5, 0);
-	glRotatef(90, 0, 1, 0);
-	glScalef(1.5, 1.5, 1.5);
-	drawModel(model6);
-	glPopMatrix();
-
-	//Draw Table
-	glPushMatrix(); glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzAmbPreto);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, LuzEspBranco);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzAmbPreto);
-	glColor3f(1, 1, 1);
-	glBindTexture(GL_TEXTURE_2D, texture_id[3]);
-	glTranslatef(-30, 0.5, -20);
-	glRotatef(90, 0, 1, 0);
-	glScalef(1.5, 1.5, 1.5);
-	drawModel(model6);
-	glPopMatrix();
-
-	//Draw Balancé 1
-	glPushMatrix(); glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzAmbPreto);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, LuzEspBranco);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzAmbPreto);
-	glTranslatef(0, 0.5, 40);
-	glRotatef(90, 0, 1, 0);
-	glPushMatrix();
-	glColor3f(1, 1, 1);
-	glBindTexture(GL_TEXTURE_2D, texture_id[6]);
-	glScalef(1.9, 2, 2);
-	drawModel(model7);
-	glPopMatrix();
-
-	glPushMatrix();
+	//Chapeus de Sol
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzAmbPreto);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, LuzEspBranco);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzAmbPreto);
-	glColor3f(1, 1, 1);
-	glBindTexture(GL_TEXTURE_2D, texture_id[7]);
-	glTranslatef(0, 2, 0);
-	glRotatef(inc1, 1, 0, 0);
-	glScalef(1.8, 2, 2);
-	drawModel(model8);
-	glPopMatrix();
-	glPopMatrix();
-
-	//Draw Balancé 2
-	glPushMatrix();
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzAmbPreto);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, LuzEspBranco);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzAmbPreto);
-	glTranslatef(0, 0.5, 25);
-	glRotatef(90, 0, 1, 0);
-	glPushMatrix();
-	glColor3f(1, 1, 1);
-	glBindTexture(GL_TEXTURE_2D, texture_id[6]);
-	glScalef(1.9, 2, 2);
-	drawModel(model7);
-	glPopMatrix();
-
-	glPushMatrix();
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzAmbPreto);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, LuzEspBranco);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzAmbPreto);
-	glColor3f(1, 1, 1);
-	glBindTexture(GL_TEXTURE_2D, texture_id[7]);
-	glTranslatef(0, 2, 0);
-	glRotatef(inc2, 1, 0, 0);
-	glScalef(1.8, 2, 2);
-	drawModel(model8);
-	glPopMatrix();
-	glPopMatrix();
-
-
-	//Draw cerca
-	glBindTexture(GL_TEXTURE_2D, texture_id[3]);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzAmbPreto);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, LuzEspBranco);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzAmbPreto);
-	glColor3f(0.88, 0.44, 0.37);
-	glPushMatrix();
+	//glBindTexture(GL_TEXTURE_2D, texture_id[4]); -> problema: não consigo pôr duas texturas no mesmo objeto
+	glColor3f(1,1,1);
 	glScalef(2, 2, 2);
-	glPushMatrix();//cerca x=-25
-	glTranslatef(-25, 0, 0.25);
-	for (int i = -24; i <= 25; i++) {
-		glPushMatrix();
-		if (i == -13 || i == -12) {}
-		else if (i == -11) {
-			glTranslatef(0, 0, -i);
-			glScalef(1, 1, -1);
-			drawModel(model3);
-		}
-		else {
-			glTranslatef(0, 0, -i);
-			drawModel(model3);
-		}
-		glPopMatrix();
-	}
-	glPopMatrix();
-	glPushMatrix();//cerca x=25
-	glTranslatef(25, 0, 0.25);
-	for (int i = -24; i <= 25; i++) {
-		glPushMatrix();
-		glTranslatef(0, 0, -i);
-		drawModel(model3);
-		glPopMatrix();
-	}
-	glPopMatrix();
-	glPushMatrix();//cerca z=-25
-	glTranslatef(0.25, 0, -25);
-	for (int i = -24; i <= 25; i++) {
-		glPushMatrix();
-		glTranslatef(-i, 0, 0);
-		glScalef(-1, 1, 1);
-		glRotatef(-90, 0, 1, 0);
-		drawModel(model3);
-		glPopMatrix();
-	}
-	glPopMatrix();
-	glPushMatrix();//cerca z=25
-	glTranslatef(0.7, 0, 25);
-	for (int i = -24; i <= 25; i++) {
-		glPushMatrix();
-		glTranslatef(-i, 0, 0);
-		glRotatef(-90, 0, 1, 0);
-		drawModel(model3);
-		glPopMatrix();
-	}
-	glPopMatrix();
-	glPopMatrix();
+	glPushMatrix();
 
-	glDisable(GL_TEXTURE_2D);
+	//lado direito
+	for (int i = -7; i <= -1; i++) {
+		for (int j = 1; j <= 4; j++) {
+			glBindTexture(GL_TEXTURE_2D, texture_id[5]);
+			glPushMatrix();
+
+			glTranslatef((20 * i), 0, (j * -25));
+			glColor3f(1, 1, 1);
+			glScalef(2, 2, 2);
+			drawModel(model3);
+
+			glPopMatrix();
+		}
+	}
+
+	//lado esquerdo
+	for (int i = 1; i <= 7; i++) {
+		for (int j = 1; j <= 4; j++) {
+			glBindTexture(GL_TEXTURE_2D, texture_id[5]);
+			glPushMatrix();
+
+			glTranslatef((20 * i), 0, (j * -25));
+			glColor3f(1, 1, 1);
+			glScalef(2, 2, 2);
+			drawModel(model3);
+
+			glPopMatrix();
+		}
+	}
+	glEnd();
+
+	//Espreguiçadeiras
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzAmbPreto);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, LuzEspBranco);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzAmbPreto);
+	glColor3f(2, 2, 2);
+	glScalef(2, 2, 2);
+	glPushMatrix();
+
+	//lado direito
+	for (int i = -7; i <= -1; i++) {
+		for (int j = 1; j <= 4; j++) {
+			glBindTexture(GL_TEXTURE_2D, texture_id[6]);
+			glPushMatrix();
+
+			glTranslatef((10 * i) - 0.5, 0, (j * -12.5));
+			glColor3f(1, 1, 1);
+			glScalef(2, 2, 2);
+			glRotatef(-90.0, 0.0, 1.0, 0.0);
+			drawModel(model4);
+
+			glPopMatrix();
+		}
+	}
+
+	//lado esquerdo
+	for (int i = 1; i <= 7; i++) {
+		for (int j = 1; j <= 4; j++) {
+			glBindTexture(GL_TEXTURE_2D, texture_id[6]);
+			glPushMatrix();
+
+			glTranslatef((10 * i)-0.5, 0, (j * -12.5));
+			glColor3f(1, 1, 1);
+			glScalef(2, 2, 2);
+			glRotatef(-90.0, 0.0, 1.0, 0.0);
+			drawModel(model4);
+
+			glPopMatrix();
+		}
+	}
+	glEnd();
+
+	//rede voley
+	glPushMatrix();
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzAmbPreto);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, LuzEspBranco);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, LuzAmbPreto);
+	glBindTexture(GL_TEXTURE_2D, texture_id[3]);
+	glTranslatef(0, 0, -65);
+	glScalef(2, 2, 2);
+	glColor3f(1, 1, 1);
+	drawModel(model5);
+	glEnd();
+	glPopMatrix();
 }
 //
 // Função que desenha o sol
@@ -745,35 +609,35 @@ void initTexture() {
 
 	// carrega a uma imagem TGA 
 	image_t temp_image;
-	tgaLoad("areia1.tga", &temp_image, TGA_FREE);
+	tgaLoad("areia.tga", &temp_image, TGA_FREE);
 
 	texture_id[CUBE_TEXTURE + 1] = 1002;
 	glBindTexture(GL_TEXTURE_2D, texture_id[CUBE_TEXTURE + 1]);
 	tgaLoad("oceano.tga", &temp_image, TGA_FREE);
 
-	/*texture_id[CUBE_TEXTURE + 2] = 1003;
+	texture_id[CUBE_TEXTURE + 2] = 1003;
 	glBindTexture(GL_TEXTURE_2D, texture_id[CUBE_TEXTURE + 2]);
-	tgaLoad("metal.tga", &temp_image, TGA_FREE);
+	tgaLoad("tecido_bandeira.tga", &temp_image, TGA_FREE);
 
 	texture_id[CUBE_TEXTURE + 3] = 1004;
 	glBindTexture(GL_TEXTURE_2D, texture_id[CUBE_TEXTURE + 3]);
-	tgaLoad("plank.tga", &temp_image, TGA_FREE);
+	tgaLoad("metal_postes.tga", &temp_image, TGA_FREE);
 
 	texture_id[CUBE_TEXTURE + 4] = 1005;
 	glBindTexture(GL_TEXTURE_2D, texture_id[CUBE_TEXTURE + 4]);
-	tgaLoad("escorrega.tga", &temp_image, TGA_FREE);
+	tgaLoad("madeira_cadeira.tga", &temp_image, TGA_FREE);
 
 	texture_id[CUBE_TEXTURE + 5] = 1006;
 	glBindTexture(GL_TEXTURE_2D, texture_id[CUBE_TEXTURE + 5]);
-	tgaLoad("wood.tga", &temp_image, TGA_FREE);
+	tgaLoad("topo_chapeu_sol.tga", &temp_image, TGA_FREE);
 
 	texture_id[CUBE_TEXTURE + 6] = 1007;
 	glBindTexture(GL_TEXTURE_2D, texture_id[CUBE_TEXTURE + 6]);
-	tgaLoad("aluminio.tga", &temp_image, TGA_FREE);
+	tgaLoad("madeira_espreguicadeira.tga", &temp_image, TGA_FREE);
 
-	texture_id[CUBE_TEXTURE + 7] = 1008;
-	glBindTexture(GL_TEXTURE_2D, texture_id[CUBE_TEXTURE + 7]);
-	tgaLoad("balance.tga", &temp_image, TGA_FREE);*/
+	texture_id[CUBE_TEXTURE + 8] = 1009;
+	glBindTexture(GL_TEXTURE_2D, texture_id[CUBE_TEXTURE + 8]);
+	tgaLoad("tecido_almofada.tga", &temp_image, TGA_FREE);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -781,7 +645,7 @@ void initTexture() {
 //Timer functions
 //
 ////////////////////////////////////////////////////////////////////////////////
-void rodaSpinner1(int value) {
+/*void rodaSpinner1(int value) {
 	if (activo[0])
 		rotSpin1++;
 	if (rotSpin1 == 360)
@@ -951,7 +815,7 @@ void rotSwing22(int value) {
 		}
 	}
 	glutTimerFunc(30, rotSwing22, 0);
-}
+}*/
 ////////////////////////////////////////////////////////////////////////////////
 //	Programa Principal /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -963,8 +827,6 @@ int main(int argc, char** argv)
 
 #pragma
 	//FreeConsole();
-
-
 	InitGLUT();
 	InitGL();
 	initTexture();
@@ -974,18 +836,15 @@ int main(int argc, char** argv)
 	cout << "A carregar modelos\n" << endl;
 
 	//Load the 3D models from the .obj files
-	/*char *spinner = "spinner.obj";
-	char *slide = "slide.obj";
-	char *fence = "cerca.obj";
-	char *swing = "swing.obj";
-	char *seat = "seat.obj";
-	char *table = "mesa.obj";
-	char *balBase = "balanceBase.obj";
-	char *bal = "balance.obj";
+	char *bandeiraBoia = "bandeira_boia.obj";
+	char *cadeiraLifeguard = "cadeira_lifeguard.obj";
+	char *chapeuPraia = "chapeu_praia.obj";
+	char *espreguicadeira = "espreguicadeira.obj";
+	char *redeVoley = "rede_voley.obj";
 
 	cout << "Modelo 1\t";
 	// Model Info
-	Model model = getOBJinfo(spinner);
+	Model model = getOBJinfo(bandeiraBoia);
 
 	// Model Data
 	model1.nVert = model.vertices;
@@ -997,13 +856,13 @@ int main(int argc, char** argv)
 	model1.tex = (float*)malloc(sizeof(float) * model.vertices * 2);
 	model1.norms = (float*)malloc(sizeof(float) * model.vertices * 3);
 
-	extractOBJdata(spinner, model1);
+	extractOBJdata(bandeiraBoia, model1);
 
 	cout << "Done!" << endl;
 	cout << "Modelo 2\t";
 
 	//Model Info
-	model = getOBJinfo(slide);
+	model = getOBJinfo(cadeiraLifeguard);
 
 	// Model Data
 	model2.nVert = model.vertices;
@@ -1015,12 +874,12 @@ int main(int argc, char** argv)
 	model2.tex = (float*)malloc(sizeof(float) * model.vertices * 2);
 	model2.norms = (float*)malloc(sizeof(float) * model.vertices * 3);
 
-	extractOBJdata(slide, model2);
+	extractOBJdata(cadeiraLifeguard, model2);
 
 	cout << "Done!" << endl;
 	cout << "Modelo 3\t";
 
-	model = getOBJinfo(fence);
+	model = getOBJinfo(chapeuPraia);
 
 	// Model Data
 	model3.nVert = model.vertices;
@@ -1032,12 +891,12 @@ int main(int argc, char** argv)
 	model3.tex = (float*)malloc(sizeof(float) * model.vertices * 2);
 	model3.norms = (float*)malloc(sizeof(float) * model.vertices * 3);
 
-	extractOBJdata(fence, model3);
+	extractOBJdata(chapeuPraia, model3);
 
 	cout << "Done!" << endl;
 	cout << "Modelo 4\t";
 
-	model = getOBJinfo(swing);
+	model = getOBJinfo(espreguicadeira);
 
 	// Model Data
 	model4.nVert = model.vertices;
@@ -1049,12 +908,12 @@ int main(int argc, char** argv)
 	model4.tex = (float*)malloc(sizeof(float) * model.vertices * 2);
 	model4.norms = (float*)malloc(sizeof(float) * model.vertices * 3);
 
-	extractOBJdata(swing, model4);
+	extractOBJdata(espreguicadeira, model4);
 
 	cout << "Done!" << endl;
 	cout << "Modelo 5\t";
 
-	model = getOBJinfo(seat);
+	model = getOBJinfo(redeVoley);
 
 	// Model Data
 	model5.nVert = model.vertices;
@@ -1066,62 +925,11 @@ int main(int argc, char** argv)
 	model5.tex = (float*)malloc(sizeof(float) * model.vertices * 2);
 	model5.norms = (float*)malloc(sizeof(float) * model.vertices * 3);
 
-	extractOBJdata(seat, model5);
-
-	cout << "Done!" << endl;
-	cout << "Modelo 6\t";
-
-	model = getOBJinfo(table);
-
-	// Model Data
-	model6.nVert = model.vertices;
-	model6.positions = (float *)malloc(sizeof(float) * model.positions * 3);
-	model6.texels = (float *)malloc(sizeof(float) * model.texels * 2);
-	model6.normals = (float *)malloc(sizeof(float) * model.normals * 3);
-	model6.faces = (int *)malloc(sizeof(int) * model.faces * 9);
-	model6.vertex = (float*)malloc(sizeof(float) * model.vertices * 3);
-	model6.tex = (float*)malloc(sizeof(float) * model.vertices * 2);
-	model6.norms = (float*)malloc(sizeof(float) * model.vertices * 3);
-
-	extractOBJdata(table, model6);
-
-	cout << "Done!" << endl;
-	cout << "Modelo 7\t";
-
-	model = getOBJinfo(balBase);
-
-	// Model Data
-	model7.nVert = model.vertices;
-	model7.positions = (float *)malloc(sizeof(float) * model.positions * 3);
-	model7.texels = (float *)malloc(sizeof(float) * model.texels * 2);
-	model7.normals = (float *)malloc(sizeof(float) * model.normals * 3);
-	model7.faces = (int *)malloc(sizeof(int) * model.faces * 9);
-	model7.vertex = (float*)malloc(sizeof(float) * model.vertices * 3);
-	model7.tex = (float*)malloc(sizeof(float) * model.vertices * 2);
-	model7.norms = (float*)malloc(sizeof(float) * model.vertices * 3);
-
-	extractOBJdata(balBase, model7);
-
-	cout << "Done!" << endl;
-	cout << "Modelo 8\t";
-
-	model = getOBJinfo(bal);
-
-	// Model Data
-	model8.nVert = model.vertices;
-	model8.positions = (float *)malloc(sizeof(float) * model.positions * 3);
-	model8.texels = (float *)malloc(sizeof(float) * model.texels * 2);
-	model8.normals = (float *)malloc(sizeof(float) * model.normals * 3);
-	model8.faces = (int *)malloc(sizeof(int) * model.faces * 9);
-	model8.vertex = (float*)malloc(sizeof(float) * model.vertices * 3);
-	model8.tex = (float*)malloc(sizeof(float) * model.vertices * 2);
-	model8.norms = (float*)malloc(sizeof(float) * model.vertices * 3);
-
-	extractOBJdata(bal, model8);
+	extractOBJdata(redeVoley, model5);
 
 	cout << "Done!" << endl;
 
-	glutTimerFunc(0, rodaSpinner1, 0);
+	/*glutTimerFunc(0, rodaSpinner1, 0);
 	glutTimerFunc(15, rodaSpinner2, 0);
 	glutTimerFunc(0, incSeeSaw1, 0);
 	glutTimerFunc(10, incSeeSaw2, 0);
@@ -1130,8 +938,11 @@ int main(int argc, char** argv)
 	glutTimerFunc(8, rotSwing21, 0);
 	glutTimerFunc(16, rotSwing22, 0);
 	// Esperando por eventos*/
+
+	PlaySound(L"beach.wav", NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
 	glutMainLoop();
 
+	
 
 	return EXIT_SUCCESS;
 }
