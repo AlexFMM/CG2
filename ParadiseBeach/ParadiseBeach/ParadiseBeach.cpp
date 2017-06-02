@@ -283,6 +283,11 @@ void drawScene()
 	glEnd();
 	glPopMatrix();
 
+	////////
+	//Bandeira!
+	////////
+
+
 	//Cadeira Nadador Salvador
 	glPushMatrix();
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, LuzAmbPreto);
