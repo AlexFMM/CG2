@@ -16,7 +16,7 @@
 #ifndef CG_H
 #define CG_H
 
-#define _CRT_SECURE_NO_DEPRECATE
+#define _CRT_SECURE_NO_WARNINGS
 
 //
 //	Bibliotecas  ///////////////////////////////////////////////////////////////
@@ -30,8 +30,8 @@
 #include <cstring>
 #include <string>
 #include <algorithm>
-#include <glut.h>
-#include <glu.h>
+#include <GL/glut.h>
+#include <GL/glu.h>
 
 using namespace std;
 //

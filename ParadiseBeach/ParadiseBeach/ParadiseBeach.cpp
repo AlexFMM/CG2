@@ -73,7 +73,7 @@ float LuzEspBranco[] = { 1.0, 1.0, 1.0 };
 float LuzAmbPreto[] = { 0.0, 0.0, 0.0 };
 float LuzDifBranco[] = { 1.0, 1.0, 1.0 };
 const float pos_luz[] = { 0, 1, 0, 0.0 };
-float MShininess[] = { 100 };
+float MShininess[] = { 50 };
 //
 //	Funções ////////////////////////////////////////////////////////////////////
 //
@@ -137,76 +137,7 @@ void keyboard(unsigned char tecla, int x, int y)
 		pos_y -= ny*k / 6;
 		look_y -= ny*k / 6;
 		break;
-	/*case '1':
-		activo[0] = !activo[0];
-		break;
-	case '2':
-		activo[1] = !activo[1];
-		break;
-	case '3':
-		activo[2] = !activo[2];
-		break;
-	case '4':
-		activo[3] = !activo[3];
-		break;
-	case '5':
-		activo[4] = !activo[4];
-		break;
-	case '6':
-		activo[5] = !activo[5];
-		break;
-	case '7':
-		activo[6] = !activo[6];
-		break;
-	case '8':
-		activo[7] = !activo[7];
-		break;
-	case ' ':
-		if (all_of(begin(activo), end(activo),
-			[](bool i)
-		{
-			return !i;
-		})) {
-			fill(begin(activo), end(activo), true);
-		}
-		else {
-			fill(begin(activo), end(activo), false);
-		}
-		break;
-	default: // por defeito, não há nenhuma ação
-		break;*/
 	}
-
-	//hitboxes for the fence
-	/*if (!outOfPark) {
-		if (pos_x <= -49) {
-			pos_x = -48.5;
-		}
-		else if (pos_x >= 49) {
-			pos_x = 48.5;
-		}
-		if (pos_y <= -49) {
-			pos_y = -48.5;
-		}
-		else if (pos_y >= 49) {
-			pos_y = 48.5;
-		}
-	}
-	else {
-		if (pos_x > -49 && pos_x <= -47 && pos_y >= -48 && pos_y <= 48
-			&& (pos_y < 24 || pos_y > 26)) {
-			pos_x = -49.5;
-		}
-		else if (pos_x <= 49 && pos_x >= 47 && pos_y >= -48 && pos_y <= 48) {
-			pos_x = 49.5;
-		}
-		if (pos_y >= -50 && pos_y <= -47 && pos_x >= -47 && pos_x <= 47) {
-			pos_y = -50.5;
-		}
-		else if (pos_y <= 50 && pos_y >= 47 && pos_x >= -47 && pos_x <= 47) {
-			pos_y = 50.5;
-		}
-	}*/
 
 	//end of space
 	if (pos_x >= 301) {
@@ -306,7 +237,7 @@ void iluminacao(void)
 //
 // Adaptação da função que desenha a Cidade através de paralelipípedos
 //
-void drawPark()
+void drawScene()
 {
 	glEnable(GL_TEXTURE_2D);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -319,9 +250,9 @@ void drawPark()
 	glColor3f(1, 1, 1);
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0, 0.0);			glVertex3f(-500, 0.01, -500);
-	glTexCoord2f(20.0, 0.0);		glVertex3f(500, 0.01, -500);
-	glTexCoord2f(20.0, 20.0);		glVertex3f(500, 0.01, 50);
-	glTexCoord2f(0.0, 20.0);		glVertex3f(-500, 0.01, 50);
+	glTexCoord2f(400.0, 0.0);		glVertex3f(500, 0.01, -500);
+	glTexCoord2f(400.0, 400.0);		glVertex3f(500, 0.01, 50);
+	glTexCoord2f(0.0, 400.0);		glVertex3f(-500, 0.01, 50);
 	glEnd();
 
 	glBindTexture(GL_TEXTURE_2D, texture_id[1]);
@@ -489,7 +420,7 @@ void desenha()
 	glutSolidSphere(1000 / 2, 16, 16); // desenho da esfera
 									   // desenha objectos
 	drawSun(200, 400, 200, 50);
-	drawPark();
+	drawScene();
 	glutSwapBuffers();
 }
 //
@@ -640,182 +571,7 @@ void initTexture() {
 	tgaLoad("tecido_almofada.tga", &temp_image, TGA_FREE);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-//
-//Timer functions
-//
-////////////////////////////////////////////////////////////////////////////////
-/*void rodaSpinner1(int value) {
-	if (activo[0])
-		rotSpin1++;
-	if (rotSpin1 == 360)
-		rotSpin1 = 0;
-	glutTimerFunc(25, rodaSpinner1, 0);
-}
 
-void rodaSpinner2(int value) {
-	if (activo[1])
-		rotSpin2++;
-	if (rotSpin2 == 360)
-		rotSpin2 = 0;
-	glutTimerFunc(20, rodaSpinner2, 0);
-}
-
-void incSeeSaw1(int value) {
-	if (!activo[2]) {
-		if (inc1 != 0) {
-			if (inc1 <= 15 && inc1 >= 0)
-				inc1--;
-			else if (inc1 >= -15 && inc1 <= 0) {
-				inc1++;
-			}
-		}
-	}
-	else {
-		if (inc1 < 15 && !sobeSeeSaw[0])
-			inc1++;
-		else if (inc1 == 15 && !sobeSeeSaw[0]) {
-			sobeSeeSaw[0] = !sobeSeeSaw[0];
-		}
-		else if (inc1 > -15 && sobeSeeSaw[0]) {
-			inc1--;
-		}
-		else if (inc1 == -15 && sobeSeeSaw[0]) {
-			sobeSeeSaw[0] = !sobeSeeSaw[0];
-		}
-	}
-	glutTimerFunc(40, incSeeSaw1, 0);
-}
-
-void incSeeSaw2(int value) {
-	if (!activo[3]) {
-		if (inc2 != 0) {
-			if (inc2 <= 15 && inc2 >= 0)
-				inc2--;
-			else if (inc2 >= -15 && inc2 <= 0) {
-				inc2++;
-			}
-		}
-	}
-	else {
-		if (inc2 < 15 && !sobeSeeSaw[1])
-			inc2++;
-		else if (inc2 == 15 && !sobeSeeSaw[1]) {
-			sobeSeeSaw[1] = !sobeSeeSaw[1];
-		}
-		else if (inc2 > -15 && sobeSeeSaw[1]) {
-			inc2--;
-		}
-		else if (inc2 == -15 && sobeSeeSaw[1]) {
-			sobeSeeSaw[1] = !sobeSeeSaw[1];
-		}
-	}
-	glutTimerFunc(45, incSeeSaw2, 0);
-}
-
-void rotSwing11(int value) {
-	if (!activo[4]) {
-		if (incSwing11 != 0) {
-			if (incSwing11 <= 45 && incSwing11 >= 0)
-				incSwing11--;
-			else if (incSwing11 >= -45 && incSwing11 <= 0) {
-				incSwing11++;
-			}
-		}
-	}
-	else {
-		if (incSwing11 < 45 && !sobeSwing[0][0])
-			incSwing11++;
-		else if (incSwing11 == 45 && !sobeSwing[0][0]) {
-			sobeSwing[0][0] = !sobeSwing[0][0];
-		}
-		else if (incSwing11 > -45 && sobeSwing[0][0]) {
-			incSwing11--;
-		}
-		else if (incSwing11 == -45 && sobeSwing[0][0]) {
-			sobeSwing[0][0] = !sobeSwing[0][0];
-		}
-	}
-	glutTimerFunc(40, rotSwing11, 0);
-}
-
-void rotSwing12(int value) {
-	if (!activo[5]) {
-		if (incSwing12 != 0) {
-			if (incSwing12 <= 40 && incSwing12 >= 0)
-				incSwing12--;
-			else if (incSwing12 >= -40 && incSwing12 <= 0) {
-				incSwing12++;
-			}
-		}
-	}
-	else {
-		if (incSwing12 < 40 && !sobeSwing[0][1])
-			incSwing12++;
-		else if (incSwing12 == 40 && !sobeSwing[0][1]) {
-			sobeSwing[0][1] = !sobeSwing[0][1];
-		}
-		else if (incSwing12 > -40 && sobeSwing[0][1]) {
-			incSwing12--;
-		}
-		else if (incSwing12 == -40 && sobeSwing[0][1]) {
-			sobeSwing[0][1] = !sobeSwing[0][1];
-		}
-	}
-	glutTimerFunc(35, rotSwing12, 0);
-}
-
-void rotSwing21(int value) {
-	if (!activo[6]) {
-		if (incSwing21 != 0) {
-			if (incSwing21 <= 30 && incSwing21 >= 0)
-				incSwing21--;
-			else if (incSwing21 >= -30 && incSwing21 <= 0) {
-				incSwing21++;
-			}
-		}
-	}
-	else {
-		if (incSwing21 < 30 && !sobeSwing[1][0])
-			incSwing21++;
-		else if (incSwing21 == 30 && !sobeSwing[1][0]) {
-			sobeSwing[1][0] = !sobeSwing[1][0];
-		}
-		else if (incSwing21 > -30 && sobeSwing[1][0]) {
-			incSwing21--;
-		}
-		else if (incSwing21 == -30 && sobeSwing[1][0]) {
-			sobeSwing[1][0] = !sobeSwing[1][0];
-		}
-	}
-	glutTimerFunc(40, rotSwing21, 0);
-}
-
-void rotSwing22(int value) {
-	if (!activo[7]) {
-		if (incSwing22 != 0) {
-			if (incSwing22 <= 60 && incSwing22 >= 0)
-				incSwing22--;
-			else if (incSwing22 >= -60 && incSwing22 <= 0) {
-				incSwing22++;
-			}
-		}
-	}
-	else {
-		if (incSwing22 < 60 && !sobeSwing[1][1])
-			incSwing22++;
-		else if (incSwing22 == 60 && !sobeSwing[1][1]) {
-			sobeSwing[1][1] = !sobeSwing[1][1];
-		}
-		else if (incSwing22 > -60 && sobeSwing[1][1]) {
-			incSwing22--;
-		}
-		else if (incSwing22 == -60 && sobeSwing[1][1]) {
-			sobeSwing[1][1] = !sobeSwing[1][1];
-		}
-	}
-	glutTimerFunc(30, rotSwing22, 0);
-}*/
 ////////////////////////////////////////////////////////////////////////////////
 //	Programa Principal /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -929,17 +685,7 @@ int main(int argc, char** argv)
 
 	cout << "Done!" << endl;
 
-	/*glutTimerFunc(0, rodaSpinner1, 0);
-	glutTimerFunc(15, rodaSpinner2, 0);
-	glutTimerFunc(0, incSeeSaw1, 0);
-	glutTimerFunc(10, incSeeSaw2, 0);
-	glutTimerFunc(0, rotSwing11, 0);
-	glutTimerFunc(10, rotSwing12, 0);
-	glutTimerFunc(8, rotSwing21, 0);
-	glutTimerFunc(16, rotSwing22, 0);
-	// Esperando por eventos*/
-
-	PlaySound(L"beach.wav", NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
+	//PlaySound(L"beach.wav", NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
 	glutMainLoop();
 
 	
