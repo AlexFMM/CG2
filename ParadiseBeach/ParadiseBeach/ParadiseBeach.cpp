@@ -24,6 +24,7 @@
 // Exemplo da definição de uma constante
 #define PI    3.1415927
 #define ESCAPE 27
+#define SPACE 32
 
 // Quantidade máxima de texturas a serem usadas no programa
 #define MAX_NO_TEXTURES 8
@@ -56,16 +57,10 @@ double look_z = 4; // direção de visualização da câmara (z)
 double campo_visao_y = 50; // campo de visão em y
 int rato_dx, rato_dy;
 int xloc, yloc;
-float incSwing11, incSwing12;
-float incSwing21, incSwing22;
-bool sobeSwing[2][2] = {
-	{ false, false },
-	{ false, false } };
-float inc1, inc2;
-bool sobeSeeSaw[2] = { false, false };
-float rotSpin1, rotSpin2;
+float nuv1x, nuv2x, nuv3x, nuv4x;
+float nuv1y, nuv2y, nuv3y, nuv4y;
 bool sair = true;
-//bool outOfPark = false;
+bool pause = false;
 
 bool activo[8];
 
@@ -136,6 +131,13 @@ void keyboard(unsigned char tecla, int x, int y)
 		look_x -= nx*k / 6;
 		pos_y -= ny*k / 6;
 		look_y -= ny*k / 6;
+		break;
+	case SPACE:
+		pause = !pause;
+		if(pause)
+			PlaySound(NULL, NULL, 0);
+		else
+			PlaySound(L"beach.wav", NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
 		break;
 	}
 
@@ -209,6 +211,50 @@ void mouseMotion(int x, int y) {
 		look_x = cos(teta)*(x_mira - xc) - sin(teta)*(y_mira - yc) + xc;
 		look_y = sin(teta)*(x_mira - xc) + cos(teta)*(y_mira - yc) + yc;
 	}
+}
+
+void moveCloud1(int v) {
+	if(!pause)
+		nuv1x++;
+	if (nuv1x > 110) {
+		nuv1x = -110;
+		nuv1y = rand() / 220 - 110;
+	}
+
+	glutTimerFunc(100, moveCloud1, 0);
+}
+
+void moveCloud2(int v) {
+	if (!pause)
+		nuv2x++;
+	if (nuv2x > 110) {
+		nuv2x = -110;
+		nuv2y = rand() / 220 - 110;
+	}
+
+	glutTimerFunc(123, moveCloud2, 0);
+}
+
+void moveCloud3(int v) {
+	if (!pause)
+		nuv3x++;
+	if (nuv3x > 110) {
+		nuv3x = -110;
+		nuv3y = rand() / 220 - 110;
+	}
+
+	glutTimerFunc(110, moveCloud3, 0);
+}
+
+void moveCloud4(int v) {
+	if (!pause)
+		nuv4x++;
+	if (nuv4x > 110) {
+		nuv4x = -110;
+		nuv4y = rand() / 220 - 110;
+	}
+
+	glutTimerFunc(90, moveCloud4, 0);
 }
 
 void drawModel(ModelMesh modelo) {
@@ -438,7 +484,7 @@ void drawScene()
 	glBindTexture(GL_TEXTURE_2D, texture_id[8]);
 
 	//nuvem 1
-	glTranslatef(10, 50, 60);
+	glTranslatef(10 + nuv1x, 50, 60 + nuv1y);
 	glScalef(4, 4, 4);
 	glColor3f(1, 1, 1);
 	drawModel(model6);
@@ -446,7 +492,7 @@ void drawScene()
 	glPopMatrix();
 
 	//nuvem 2
-	glTranslatef(-50, 50, 50);
+	glTranslatef(-50 + nuv2x, 50, 50 + nuv2y);
 	glScalef(5, 5, 5);
 	glColor3f(1, 1, 1);
 	drawModel(model6);
@@ -454,7 +500,7 @@ void drawScene()
 	glPopMatrix();
 
 	//nuvem 3
-	glTranslatef(60, 50, 15);
+	glTranslatef(60 + nuv3x, 50, 15 + nuv3y);
 	glScalef(3, 3, 3);
 	glColor3f(1, 1, 1);
 	drawModel(model6);
@@ -462,11 +508,43 @@ void drawScene()
 	glPopMatrix();
 
 	//nuvem 4
-	glTranslatef(60, 50, 35);
+	glTranslatef(60 + nuv4x, 50, 35 + nuv4y);
 	glScalef(3, 3, 3);
 	glColor3f(1, 1, 1);
 	drawModel(model6);
 	glEnd();
+
+	//nuvem 5
+	glTranslatef(-40 + nuv1x, 50, 30 + nuv1y);
+	glScalef(4, 4, 4);
+	glColor3f(1, 1, 1);
+	drawModel(model6);
+	glEnd();
+	glPopMatrix();
+
+	//nuvem 6
+	glTranslatef(25 + nuv2x, 45, 25 + nuv2y);
+	glScalef(5, 5, 5);
+	glColor3f(1, 1, 1);
+	drawModel(model6);
+	glEnd();
+	glPopMatrix();
+
+	//nuvem 7
+	glTranslatef(-40 + nuv3x, 55, 20 + nuv3y);
+	glScalef(3, 3, 3);
+	glColor3f(1, 1, 1);
+	drawModel(model6);
+	glEnd();
+	glPopMatrix();
+
+	//nuvem 8
+	glTranslatef(30 + nuv4x, 60, 15 + nuv4y);
+	glScalef(3, 3, 3);
+	glColor3f(1, 1, 1);
+	drawModel(model6);
+	glEnd();
+
 	glPopMatrix();
 
 
@@ -564,15 +642,12 @@ void InitGLUT()
 	glutMouseFunc(mouse);
 	glutMotionFunc(mouseMotion);
 
-	incSwing11 = 0;
-	incSwing12 = 0;
-	incSwing21 = 0;
-	incSwing22 = 0;
-	inc1 = 0;
-	inc2 = 0;
-	rotSpin1 = 0;
-	rotSpin2 = 0;
-	fill(begin(activo), end(activo), true);
+	nuv1x = nuv2x = nuv3x = nuv4x = 0;
+	nuv1y = rand() / 220 - 110; 
+	nuv2y = rand() / 220 - 110; 
+	nuv3y = rand() / 220 - 110; 
+	nuv4y = rand() / 220 - 110;
+
 }
 //
 // Função de inicialização das diversas configurações do OpenGL
@@ -810,6 +885,11 @@ int main(int argc, char** argv)
 	extractOBJdata(nuvem, model6);
 
 	cout << "Done!" << endl;
+
+	glutTimerFunc(100, moveCloud1, 0);
+	glutTimerFunc(100, moveCloud2, 0);
+	glutTimerFunc(100, moveCloud3, 0);
+	glutTimerFunc(100, moveCloud4, 0);
 
 	PlaySound(L"beach.wav", NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
 	glutMainLoop();
